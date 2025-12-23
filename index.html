@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Notes - For Zell</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            font-size: 24px;
+            animation: float 15s infinite;
+            opacity: 0;
+            z-index: 1;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .heart:hover {
+            transform: scale(1.5);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Stars in background */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #ffd6f0;
+            font-style: italic;
+        }
+
+        /* Card Section */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .main-message {
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            color: #ffd6f0;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 214, 240, 0.8);
+        }
+
+        .sub-message {
+            font-size: 1.2em;
+            color: #ffe6f7;
+            line-height: 1.8;
+            margin-top: 25px;
+            font-style: italic;
+        }
+
+        /* Rose decoration */
+        .rose {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: bloom 2s ease infinite;
+        }
+
+        @keyframes bloom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Love Letter Feature */
+        .love-letter {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .love-letter::before {
+            content: '💌';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 3em;
+        }
+
+        .letter-content {
+            color: #764ba2;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        /* Love Counter */
+        .love-counter {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .counter-display {
+            font-size: 4em;
+            color: #ffd6f0;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 214, 240, 0.8);
+            margin: 20px 0;
+        }
+
+        .counter-label {
+            font-size: 1.3em;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        /* Interactive Button */
+        .love-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+            font-family: 'Georgia', serif;
+            margin: 10px;
+        }
+
+        .love-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.6);
+        }
+
+        .love-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Love Quotes Slider */
+        .quotes-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .quote-text {
+            font-size: 1.5em;
+            color: #fff;
+            font-style: italic;
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Couple Memory Gallery */
+        .memory-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .memory-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .memory-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .memory-title {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Love Meter */
+        .love-meter {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .meter-container {
+            background: rgba(255, 255, 255, 0.2);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            transition: width 2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Music Player */
+        .music-player {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .play-button {
+            font-size: 3em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .play-button:hover {
+            transform: scale(1.2);
+        }
+
+        .music-title {
+            color: #fff;
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+
+        /* Popup notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .main-message {
+                font-size: 1.8em;
+            }
+            .card {
+                padding: 30px 20px;
+            }
+            .counter-display {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Floating Hearts -->
+    <div id="hearts"></div>
+
+    <!-- Sparkles -->
+    <div id="sparkles"></div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">💖 Pesan cinta terkirim!</div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1>✨ Love Notes ✨</h1>
+            <p class="subtitle">Pesan Spesial Untukmu</p>
+        </header>
+
+        <!-- Main Message Card -->
+        <div class="card">
+            <div class="message-box">
+                <div class="rose">🌹</div>
+                <div class="main-message">
+                    Hai, <span class="highlight">semangat terus ya Zell</span>! 💖
+                </div>
+                <div class="sub-message">
+                    Di setiap langkah yang kamu ambil, ingatlah bahwa kamu adalah seseorang yang luar biasa. 
+                    Setiap hari adalah kesempatan baru untuk bersinar lebih terang. 
+                    Jangan pernah menyerah, karena keajaiban selalu menunggu mereka yang percaya. 
+                    Kamu pasti bisa! 🌟
+                </div>
+                <div class="rose" style="margin-top: 30px;">💕</div>
+            </div>
+        </div>
+
+        <!-- Love Counter -->
+        <div class="card">
+            <div class="love-counter">
+                <div class="counter-label">💝 Total Cinta yang Terkirim</div>
+                <div class="counter-display" id="loveCounter">0</div>
+                <button class="love-button" onclick="sendLove()">Kirim Cinta 💌</button>
+            </div>
+        </div>
+
+        <!-- Love Meter -->
+        <div class="card">
+            <div class="love-meter">
+                <h2 style="color: #fff; margin-bottom: 20px;">💗 Love Meter untuk Zell</h2>
+                <div class="meter-container">
+                    <div class="meter-fill" id="loveMeter" style="width: 0%;">
+                        <span id="meterText">0%</span>
+                    </div>
+                </div>
+                <button class="love-button" onclick="increaseLove()">Tambah Love! ❤️</button>
+            </div>
+        </div>
+
+        <!-- Romantic Quotes -->
+        <div class="card">
+            <div class="quotes-container">
+                <h2 style="color: #fff; margin-bottom: 20px;">💭 Kata-kata Indah</h2>
+                <div class="quote-text" id="quoteDisplay">
+                    "Kamu adalah alasan tersenyumku setiap hari"
+                </div>
+                <button class="love-button" onclick="changeQuote()">Quote Selanjutnya 📖</button>
+            </div>
+        </div>
+
+        <!-- Memory Gallery -->
+        <div class="card">
+            <h2 style="color: #fff; text-align: center; margin-bottom: 30px;">🌸 Momen Spesial</h2>
+            <div class="memory-gallery">
+                <div class="memory-item" onclick="showNotification('Momen pertama bertemu! 🌟')">
+                    <div class="memory-icon">🌅</div>
+                    <div class="memory-title">Pertemuan Pertama</div>
+                </div>
+                <div class="memory-item" onclick="showNotification('Tawa bersama yang indah! 😊')">
+                    <div class="memory-icon">😊</div>
+                    <div class="memory-title">Tawa Bersama</div>
+                </div>
+                <div class="memory-item" onclick="showNotification('Kenangan manis! 🍰')">
+                    <div class="memory-icon">🎂</div>
+                    <div class="memory-title">Hari Spesial</div>
+                </div>
+                <div class="memory-item" onclick="showNotification('Petualangan seru! 🎭')">
+                    <div class="memory-icon">🎭</div>
+                    <div class="memory-title">Petualangan</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Letter -->
+        <div class="card">
+            <div class="love-letter">
+                <h2 style="color: #764ba2; margin-bottom: 20px; text-align: center;">Surat Cinta untuk Zell</h2>
+                <div class="letter-content">
+                    <p style="margin-bottom: 15px;">Zell yang terkasih,</p>
+                    <p style="margin-bottom: 15px;">
+                        Setiap hari bersamamu adalah hadiah yang berharga. Kamu membawa cahaya di saat gelap, 
+                        membawa tawa di saat sedih, dan membawa harapan di saat lelah.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        Teruslah bersinar seperti bintang di malam hari. Jangan biarkan apapun meredupkan 
+                        cahayamu. Kamu lebih kuat dari yang kamu kira, lebih berani dari yang kamu rasakan, 
+                        dan lebih dicintai dari yang kamu bayangkan.
+                    </p>
+                    <p style="text-align: right; margin-top: 25px; font-style: italic;">
+                        Dengan cinta, <br>
+                        Untuk Zell yang luar biasa 💝
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Player -->
+        <div class="card">
+            <div class="music-player">
+                <h2 style="color: #fff; margin-bottom: 20px;">🎵 Musik Romantis</h2>
+                <div class="play-button" onclick="toggleMusic()" id="musicButton">▶️</div>
+                <div class="music-title" id="musicStatus">Klik untuk memutar musik cinta</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made with endless love 💝 | Specially crafted for Zell</p>
+        <p style="margin-top: 10px;">© 2024 Love Notes | Always in my heart</p>
+    </footer>
+
+    <script>
+        // Love Counter
+        let loveCount = 0;
+        function sendLove() {
+            loveCount++;
+            document.getElementById('loveCounter').textContent = loveCount;
+            createHeartBurst();
+            showNotification(`💖 ${loveCount} cinta telah terkirim untuk Zell!`);
+        }
+
+        // Heart Burst Effect
+        function createHeartBurst() {
+            for(let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = '50%';
+                    heart.style.top = '50%';
+                    heart.style.fontSize = '30px';
+                    heart.style.zIndex = '1000';
+                    heart.style.animation = `heartBurst 1s ease-out forwards`;
+                    heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1000);
+                }, i * 50);
+            }
+        }
+
+        // Add burst animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes heartBurst {
+                to {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Love Meter
+        let loveLevel = 0;
+        function increaseLove() {
+            if(loveLevel < 100) {
+                loveLevel += 10;
+                document.getElementById('loveMeter').style.width = loveLevel + '%';
+                document.getElementById('meterText').textContent = loveLevel + '%';
+                
+                if(loveLevel === 100) {
+                    showNotification('🎉 Love Meter penuh! Zell sangat dicintai!');
+                }
+            } else {
+                showNotification('💖 Love sudah maksimal untuk Zell!');
+            }
+        }
+
+        // Quotes
+        const quotes = [
+            "Kamu adalah alasan tersenyumku setiap hari 😊",
+            "Bersamamu, setiap momen menjadi istimewa ✨",
+            "Kamu membuat dunia ini lebih indah 🌸",
+            "Semangat terus Zell! Kamu luar biasa! 🌟",
+            "Cinta dan dukungan selalu bersamamu 💝",
+            "Kamu lebih kuat dari yang kamu kira 💪",
+            "Setiap hari bersamamu adalah berkah 🙏",
+            "Teruslah bersinar seperti bintang 🌠"
+        ];
+
+        let currentQuote = 0;
+        function changeQuote() {
+            currentQuote = (currentQuote + 1) % quotes.length;
+            document.getElementById('quoteDisplay').textContent = quotes[currentQuote];
+        }
+
+        // Music Player
+        let musicPlaying = false;
+        function toggleMusic() {
+            musicPlaying = !musicPlaying;
+            const button = document.getElementById('musicButton');
+            const status = document.getElementById('musicStatus');
+            
+            if(musicPlaying) {
+                button.textContent = '⏸️';
+                status.textContent = '🎵 Playing: "Perfect" - Ed Sheeran';
+                showNotification('🎵 Musik romantis dimulai!');
+            } else {
+                button.textContent = '▶️';
+                status.textContent = 'Klik untuk memutar musik cinta';
+            }
+        }
+
+        // Notification System
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💝'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            
+            heart.addEventListener('click', function() {
+                sendLove();
+                this.remove();
+            });
+            
+            document.getElementById('hearts').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        // Create multiple hearts
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 1000);
+        }
+        setInterval(() => {
+            createHeart();
+        }, 2000);
+
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Create sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('sparkles').appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createSparkle, i * 200);
+        }
+        setInterval(() => {
+            createSparkle();
+        }, 500);
+
+        // Auto increase love meter gradually
+        setInterval(() => {
+            if(loveLevel < 100) {
+                loveLevel += 1;
+                document.getElementById('loveMeter').style.width = loveLevel + '%';
+                document.getElementById('meterText').textContent = loveLevel + '%';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
